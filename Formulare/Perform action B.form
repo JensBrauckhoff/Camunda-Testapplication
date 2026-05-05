@@ -1,0 +1,26 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "5778981"
+  },
+  "schemaVersion": 19,
+  "id": "perform-action-b-11jxeca",
+  "components": [
+    {
+      "label": "Aktion B",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_03ce7pt",
+        "columns": null
+      },
+      "id": "Field_0fbafdl",
+      "key": "textarea_j0cr58",
+      "disabled": false,
+      "defaultValue": "Das hist ist der Text für die Aktion B",
+      "readonly": true
+    }
+  ],
+  "type": "default"
+}
