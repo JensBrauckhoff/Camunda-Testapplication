@@ -328,10 +328,10 @@
     </informationRequirement>
     <literalExpression id="LiteralExpression_1oj5jmp">
       <text>{
-  inOrdnung: Decision_InOrdnung.inOrdnung,
-  istHeilbar: Decision_InOrdnung.istHeilbar,
-  hinweise: Decision_Hinweise.hinweis,
-  dokumente: Decision_Hinweise.dokumente,
+  inOrdnung: false,
+  istHeilbar: false,
+  hinweise: ["Hinweis1", "Hinweis2"],
+  dokumente: ["Dokument1", "Dokument2"]
 }</text>
     </literalExpression>
   </decision>
