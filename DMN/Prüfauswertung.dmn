@@ -156,7 +156,7 @@
     <informationRequirement id="InformationRequirement_0kruvky">
       <requiredDecision href="#Decision_Geeignetheit_Pruefung" />
     </informationRequirement>
-    <decisionTable id="DecisionTable_0ku0l11" hitPolicy="COLLECT">
+    <decisionTable id="DecisionTable_0ku0l11" hitPolicy="FIRST">
       <input id="InputClause_0v3mnsn">
         <inputExpression id="LiteralExpression_0jmy7sf" typeRef="string">
           <text>Decision_Vertragsdaten_Pruefung.korrekt</text>
@@ -178,13 +178,13 @@
           <text></text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1x1idyh">
-          <text>Decision_Vertragsdaten_Pruefung.hinweis</text>
+          <text>"Hinweis1"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_16b7j2m">
-          <text>Decision_Vertragsdaten_Pruefung.anmerkung</text>
+          <text>"Anmerkung1"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_0i3pcnr">
-          <text>Decision_Vertragsdaten_Pruefung.dokumente</text>
+          <text>"Dokument1"</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_025ot7l">
@@ -195,13 +195,13 @@
           <text>true</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1xxgi0m">
-          <text>Decision_Geeignetheit_Pruefung.hinweis</text>
+          <text>"Hinweis2"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_18ubu5z">
-          <text>Decision_Geeignetheit_Pruefung.hinweis</text>
+          <text>"Anmerkung2"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_0i30sq3">
-          <text>Decision_Geeignetheit_Pruefung.dokumente</text>
+          <text>"Dokument2"</text>
         </outputEntry>
       </rule>
     </decisionTable>
@@ -213,7 +213,7 @@
     <informationRequirement id="InformationRequirement_1th0f7q">
       <requiredDecision href="#Decision_Geeignetheit_Pruefung" />
     </informationRequirement>
-    <decisionTable id="DecisionTable_10sal7c" hitPolicy="COLLECT" aggregation="MAX">
+    <decisionTable id="DecisionTable_10sal7c" hitPolicy="FIRST">
       <input id="InputClause_1n9zk6p">
         <inputExpression id="LiteralExpression_05iers5" typeRef="boolean">
           <text>Decision_Vertragsdaten_Pruefung.korrekt</text>
@@ -319,7 +319,7 @@
     </decisionTable>
   </decision>
   <decision id="Decision_Gesamtergebnis" name="Gesamtergebnis">
-    <variable id="InformationItem_095nfzg" name="Gesamtergebnis" />
+    <variable id="InformationItem_095nfzg" name="Gesamtergebnis" typeRef="Any" />
     <informationRequirement id="InformationRequirement_1rkz43w">
       <requiredDecision href="#Decision_InOrdnung" />
     </informationRequirement>
