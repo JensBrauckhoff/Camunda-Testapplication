@@ -22,11 +22,11 @@ public class TestPruefDmn {
     private CamundaProcessTestContext processTestContext;
 
     @Test
-    @TestDeployment(resources = "Prüfauswertung.dmn")
+    @TestDeployment(resources = "testProcessApplication/dmn/Prafauswertung.dmn")
     public void testDmn() {
         final Map<String, Object> variables = Map.of();
         final var decisionResult1 = client.newEvaluateDecisionCommand()
-                .decisionId("Decision_Gesamtergebnis")
+                .decisionId("Decision_Vertragsunterlagen_pruefen")
                 .variables(variables)
                 .send().join();
         final var evaluations1 = decisionResult1.getEvaluatedDecisions();
@@ -34,6 +34,6 @@ public class TestPruefDmn {
     }
 
     @SpringBootApplication
-    @Deployment(resources = "classpath*:/dmn/**/*.dmn")
+    @Deployment(resources = "classpath*:/**/*.dmn")
     static class TestProcessApplication {}
 }

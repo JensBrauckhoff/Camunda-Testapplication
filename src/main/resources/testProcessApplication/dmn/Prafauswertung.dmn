@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Vertragsdaten_Pruefung" name="Prüfe Vertragsdaten" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.9.0">
+  <decision id="Decision_Vertragsunterlagen_pruefen" name="Vertragsunterlagen prüfen">
+    <decisionTable id="DecisionTable_00sclqc">
+      <input id="Input_1" label="Vertragsdaten vollständig">
+        <inputExpression id="InputExpression_1" typeRef="boolean">
+          <text>pruefung.vertragsDaten.vollstaendig</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_11162fz" label="Vertragsdaten korrekt">
+        <inputExpression id="LiteralExpression_0102xtp" typeRef="boolean">
+          <text>pruefung.vertragsDaten.korrekt</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Korrekt" name="korrekt" typeRef="boolean" />
+      <output id="OutputClause_1tw2myr" label="Heilbar" name="heilbar" typeRef="boolean" />
+      <output id="OutputClause_0rf2sbb" label="Hinweis" name="hinweis" typeRef="string" />
+      <rule id="DecisionRule_00o5wni">
+        <inputEntry id="UnaryTests_19srmfy">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1l8gy0k">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_03svr8d">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0fhvm7l">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0k69o1a">
+          <text>""</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1jfb57w">
+        <inputEntry id="UnaryTests_06ue9dm">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wb198w">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qrrw9a">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_07p3ri4">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1gvlsww">
+          <text>"Bitte ergänzen sie die Unterlagen"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_19q2zbw">
+        <inputEntry id="UnaryTests_16ir1zx">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08akq21">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0i82tc8">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05ovayh">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ua6u27">
+          <text>"Bitte reichen sie die Unterlagen erneut ein"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape id="Decision_0hyg3xh_di" dmnElementRef="Decision_Vertragsunterlagen_pruefen">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
