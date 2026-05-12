@@ -17,6 +17,7 @@ import java.util.Map;
 @CamundaSpringProcessTest
 public class TestPruefDmn {
     public static final String ANMERKUNG_1 = "Anmerkung1";
+    public static final String DECISION_NAME = "Decision_Pruefungen_auswerten";
 
     @Autowired
     private CamundaClient client;
@@ -31,7 +32,7 @@ public class TestPruefDmn {
                 "korrekt", true,
                 "anmerkung", ANMERKUNG_1)));
         final EvaluateDecisionResponse decisionResult1 = client.newEvaluateDecisionCommand()
-                .decisionId("Decision_Vertragsunterlagen_pruefen")
+                .decisionId(DECISION_NAME)
                 .variables(variables1).send().join();
         final String decisionOutput1 = decisionResult1.getDecisionOutput();
         System.out.printf("Test 1: %s\n", decisionOutput1);
@@ -41,7 +42,7 @@ public class TestPruefDmn {
                 "korrekt", false,
                 "anmerkung", ANMERKUNG_1)));
         final EvaluateDecisionResponse decisionResult2 = client.newEvaluateDecisionCommand()
-                .decisionId("Decision_Vertragsunterlagen_pruefen")
+                .decisionId(DECISION_NAME)
                 .variables(variables2).send().join();
         final String decisionOutput = decisionResult2.getDecisionOutput();
         System.out.printf("Test 2: %s\n", decisionOutput);
@@ -51,7 +52,7 @@ public class TestPruefDmn {
                 "korrekt", false,
                 "anmerkung", ANMERKUNG_1)));
         final EvaluateDecisionResponse decisionResult3 = client.newEvaluateDecisionCommand()
-                .decisionId("Decision_Vertragsunterlagen_pruefen")
+                .decisionId(DECISION_NAME)
                 .variables(variables3).send().join();
         final String decisionOutpu3 = decisionResult3.getDecisionOutput();
         System.out.printf("Test 3: %s\n", decisionOutpu3);
@@ -61,7 +62,7 @@ public class TestPruefDmn {
                 "korrekt", true,
                 "anmerkung", ANMERKUNG_1)));
         final EvaluateDecisionResponse decisionResult4 = client.newEvaluateDecisionCommand()
-                .decisionId("Decision_Vertragsunterlagen_pruefen")
+                .decisionId(DECISION_NAME)
                 .variables(variables4).send().join();
         final String decisionOutput4 = decisionResult4.getDecisionOutput();
         System.out.printf("Test 4: %s\n", decisionOutput4);

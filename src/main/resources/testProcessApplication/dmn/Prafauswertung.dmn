@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Vertragsdaten_Pruefung" name="Prüfe Vertragsdaten" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.9.0">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="Vertragsdaten_Pruefung" name="Prüfe Vertragsdaten" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.9.0">
   <decision id="Decision_Vertragsunterlagen_pruefen" name="Vertragsunterlagen prüfen">
     <decisionTable id="DecisionTable_00sclqc">
       <input id="Input_1" label="Vertragsdaten vollständig">
@@ -12,7 +12,7 @@
           <text>pruefung.vertragsDaten.korrekt</text>
         </inputExpression>
       </input>
-      <output id="Output_1" label="Korrekt" name="korrekt" typeRef="boolean" />
+      <output id="Output_1" label="Korrekt" name="korrekt" typeRef="boolean" biodi:width="192" />
       <output id="OutputClause_1tw2myr" label="Heilbar" name="heilbar" typeRef="boolean" />
       <output id="OutputClause_0rf2sbb" label="Hinweis" name="hinweis" typeRef="string" />
       <output id="OutputClause_0n0kwen" label="Anmerkung" name="anmerkung" typeRef="string" />
@@ -78,10 +78,79 @@
       </rule>
     </decisionTable>
   </decision>
+  <decision id="Decision_Pruefungen_auswerten" name="Prüfungen auswerten">
+    <informationRequirement id="InformationRequirement_0c3a6gm">
+      <requiredDecision href="#Decision_Vertragsunterlagen_pruefen" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0mgknkz">
+      <input id="InputClause_03whp0c" label="Korrekt">
+        <inputExpression id="LiteralExpression_0r88gq3" typeRef="boolean">
+          <text>Decision_Vertragsunterlagen_pruefen.korrekt</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0oft9g3" label="Heilbar">
+        <inputExpression id="LiteralExpression_1m7l563" typeRef="boolean">
+          <text>Decision_Vertragsunterlagen_pruefen.heilbar</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1ivbe1h" label="Korrekt" name="korrekt" typeRef="boolean" />
+      <output id="OutputClause_0imm8o9" label="Heilbar" name="heilbar" typeRef="boolean" />
+      <rule id="DecisionRule_0u39t4x">
+        <inputEntry id="UnaryTests_17xqkyl">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ykowje">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_115jxme">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1vpqrgo">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0z3wnuw">
+        <inputEntry id="UnaryTests_0jaaz02">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_083wb5d">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1xx2ixj">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0v3sj84">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1yc43cn">
+        <inputEntry id="UnaryTests_1pt2oe1">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_09eyhho">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1mle2z8">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_166j91f">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
   <dmndi:DMNDI>
     <dmndi:DMNDiagram>
       <dmndi:DMNShape id="Decision_0hyg3xh_di" dmnElementRef="Decision_Vertragsunterlagen_pruefen">
-        <dc:Bounds height="80" width="180" x="160" y="100" />
+        <dc:Bounds height="80" width="180" x="180" y="240" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0x7ibo5" dmnElementRef="InformationRequirement_0c3a6gm">
+        <di:waypoint x="270" y="240" />
+        <di:waypoint x="270" y="180" />
+        <di:waypoint x="270" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_13j9woq" dmnElementRef="Decision_Pruefungen_auswerten">
+        <dc:Bounds height="80" width="180" x="180" y="80" />
       </dmndi:DMNShape>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>
