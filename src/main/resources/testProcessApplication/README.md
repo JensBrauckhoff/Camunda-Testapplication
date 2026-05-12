@@ -1,0 +1,1 @@
+In diesem Verzeichnis synchronisiert der WebModeler die Resourcen zur Process Applicaiton *Test process application*
