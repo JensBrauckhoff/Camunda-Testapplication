@@ -1,0 +1,80 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "Tableau Message",
+  "id": "message-intermediate-throw-event-template",
+  "version": 1,
+  "description": "Template, um eine Nachricht an Tableau zu senden",
+  "appliesTo": [
+    "bpmn:IntermediateThrowEvent"
+  ],
+  "elementType": {
+    "value": "bpmn:IntermediateThrowEvent",
+    "eventDefinition": "bpmn:MessageEventDefinition"
+  },
+  "category": {
+    "id": "templates",
+    "name": "Templates"
+  },
+  "groups": [
+    {
+      "id": "meldung",
+      "label": "Meldung",
+      "openByDefault": true
+    }
+  ],
+  "properties": [
+    {
+      "type": "String",
+      "feel": "required",
+      "binding": {
+        "name": "meldungsName",
+        "type": "zeebe:input"
+      },
+      "label": "Meldungsname",
+      "group": "meldung"
+    },
+    {
+      "type": "Dropdown",
+      "choices": [
+        {
+          "name": "START",
+          "value": "START"
+        },
+        {
+          "name": "STOP",
+          "value": "STOP"
+        }
+      ],
+      "binding": {
+        "name": "meldungsType",
+        "type": "zeebe:input"
+      },
+      "label": "Aktion",
+      "group": "meldung"
+    },
+    {
+      "type": "String",
+      "value": "SendTableauMessage",
+      "binding": {
+        "type": "zeebe:taskDefinition",
+        "property": "type"
+      },
+      "label": "Job type",
+      "editable": false
+    },
+    {
+      "type": "Number",
+      "value": "3",
+      "binding": {
+        "type": "zeebe:taskDefinition",
+        "property": "retries"
+      },
+      "label": "Retries",
+      "description": "Number of retries for the job",
+      "group": "templated-properties"
+    }
+  ],
+  "icon": {
+    "contents": "data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjI0NjciIHdpZHRoPSIyNTAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MC4zIDU5LjUiPjxwYXRoIGQ9Ik0yOC41IDQwLjJoMy4zdi05aDguM1YyOGgtOC4zdi05aC0zLjN2OWgtOC4ydjMuMmg4LjJ6IiBmaWxsPSIjZTg3NjJkIi8+PHBhdGggZD0iTTEzLjIgNTMuMkgxNnYtOGg3LjR2LTIuNUgxNnYtOC4xaC0yLjh2OC4xSDUuOHYyLjVoNy40eiIgZmlsbD0iI2M3MjAzNyIvPjxwYXRoIGQ9Ik00NC4zIDI0LjNoMi44di04aDcuNXYtMi40aC03LjVWNS44aC0yLjh2OC4xaC03LjR2Mi40aDcuNHoiIGZpbGw9IiM1Yjg3OWIiLz48cGF0aCBkPSJNMjkgNTkuNWgyLjR2LTUuN2g1LjF2LTIuMWgtNS4xVjQ2SDI5djUuN2gtNXYyLjFoNXoiIGZpbGw9IiM1YzY2OTIiLz48cGF0aCBkPSJNMTMuMyAyNC4zaDIuNnYtOC4xaDcuNXYtMi4zaC03LjVWNS44aC0yLjZ2OC4xSDUuOHYyLjNoNy41eiIgZmlsbD0iI2ViOTEyOSIvPjxwYXRoIGQ9Ik01Mi44IDM2LjNoMi40di01LjZoNS4xdi0yLjJoLTUuMXYtNS42aC0yLjR2NS42aC01djIuMmg1eiIgZmlsbD0iIzVjNjY5MiIvPjxwYXRoIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTQ0LjMgNTMuMmgyLjh2LThoNy41di0yLjVoLTcuNXYtOC4xaC0yLjh2OC4xaC03LjR2Mi41aDcuNHoiIGZpbGw9IiMxZjQ1N2UiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjxwYXRoIGQ9Ik0zNi4xIDcuMlY1LjVoLTVWMGgtMS44djUuNWgtNXYxLjdoNXY1LjVoMS44VjcuMnpNNSAzNS45aDEuOHYtNS41aDV2LTEuN2gtNXYtNS40SDV2NS40SDB2MS44bDUtLjF6IiBmaWxsPSIjNzE5OWE2Ii8+PC9zdmc+"
+  }
+}
