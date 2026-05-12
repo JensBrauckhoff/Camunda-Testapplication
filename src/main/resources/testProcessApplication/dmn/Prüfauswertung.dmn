@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Definitions_1okvwfe" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Web Modeler" exporterVersion="5778981" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.9.0">
+  <decision id="Decision_Vertragsdaten_Pruefung" name="Prüfe Vertragsdaten">
+    <decisionTable id="DecisionTable_1rn587s">
+      <input id="Input_1">
+        <inputExpression id="InputExpression_1" typeRef="boolean">
+          <text>vertragsDaten.vollstaendig</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_02al4kk">
+        <inputExpression id="LiteralExpression_129lybj" typeRef="boolean">
+          <text>vertragsDaten.korrekt</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1sk3pto">
+        <inputExpression id="LiteralExpression_1t3x141" typeRef="string">
+          <text>vertragsDaten.anmerkung</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" name="korrekt" typeRef="boolean" />
+      <output id="OutputClause_09484wp" name="heilbar" typeRef="boolean" />
+      <output id="OutputClause_16dvp3p" label="hinweis" name="hinweis" typeRef="string" biodi:width="473" />
+      <output id="OutputClause_0a252d2" name="anmerkung" typeRef="string" />
+      <output id="OutputClause_1vx87z7" name="dokumente" typeRef="Any" />
+      <rule id="DecisionRule_1c1crvn">
+        <inputEntry id="UnaryTests_0dhivbz">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0uvqmbs">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1s51ywj">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1x50pu0">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1dp83xx">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ut7qt1">
+          <text>""</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0n37ejt">
+          <text>""</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jfd6lm">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1qw0p5h">
+        <inputEntry id="UnaryTests_109fm0x">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04lipji">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11jb62o">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ldtyyj">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0lw9syu">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1bcetwj">
+          <text>"Die Vertragsdaten sind inkonsistent. Bitte reichen sie den Antrag erneut mit korrekten Daten ein"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0rer2eu">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0sip7js">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0c9ernq">
+        <inputEntry id="UnaryTests_1rdw71y">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_125i7ub">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bb79bl">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_07t5c52">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_014b3ny">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0q4rkq0">
+          <text>"Die Vertragsdaten sind unvollständig."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ktro5a">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0u2vsi6">
+          <text>["Vertragsunterlagen", "Ausweiskopien"]</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_Geeignetheit_Pruefung" name="Prüfe Geeignetheit">
+    <decisionTable id="DecisionTable_02zovu4">
+      <input id="InputClause_0k8w3h4">
+        <inputExpression id="LiteralExpression_0trptgx" typeRef="string">
+          <text>geeignetheit.korrekt</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_13elcod" name="korrekt" typeRef="boolean" />
+      <output id="OutputClause_1ypyrq6" name="heilbar" typeRef="boolean" />
+      <output id="OutputClause_104i3ka" name="hinweis" typeRef="string" biodi:width="392" />
+      <output id="OutputClause_0x7127c" name="dokumente" typeRef="Any" biodi:width="264" />
+      <rule id="DecisionRule_0aesunx">
+        <inputEntry id="UnaryTests_0cp13pn">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0bjsztl">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_18w8lc5">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1hu0q06">
+          <text>""</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_02droqf">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_037hnj3">
+        <inputEntry id="UnaryTests_1ill5jq">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_15u1bl3">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1125yh9">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jbx5oc">
+          <text>"Die Geeignetheitsdokumentation ist inkorrekt"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0on187r">
+          <text>["Geeigentheitsdokumentation"]</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_Hinweise" name="Hinweise und Dokumente">
+    <informationRequirement id="InformationRequirement_16u0fli">
+      <requiredDecision href="#Decision_Vertragsdaten_Pruefung" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0kruvky">
+      <requiredDecision href="#Decision_Geeignetheit_Pruefung" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0ku0l11" hitPolicy="FIRST">
+      <input id="InputClause_0v3mnsn">
+        <inputExpression id="LiteralExpression_0jmy7sf" typeRef="string">
+          <text>Decision_Vertragsdaten_Pruefung.korrekt</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_12hxq1k">
+        <inputExpression id="LiteralExpression_0ml3xoi" typeRef="string">
+          <text>Decision_Geeignetheit_Pruefung.korrekt</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1s79m9z" name="hinweis" typeRef="string" />
+      <output id="OutputClause_10ez2rj" name="anmerkung" typeRef="string" />
+      <output id="OutputClause_18h3qro" name="dokumente" typeRef="string" />
+      <rule id="DecisionRule_1945mt9">
+        <inputEntry id="UnaryTests_10ls1jy">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0h7oeg8">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1x1idyh">
+          <text>"Hinweis1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_16b7j2m">
+          <text>"Anmerkung1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0i3pcnr">
+          <text>"Dokument1"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_025ot7l">
+        <inputEntry id="UnaryTests_1k8d96h">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1268a3p">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1xxgi0m">
+          <text>"Hinweis2"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_18ubu5z">
+          <text>"Anmerkung2"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0i30sq3">
+          <text>"Dokument2"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_InOrdnung" name="Prüfergebnis">
+    <informationRequirement id="InformationRequirement_0b89czx">
+      <requiredDecision href="#Decision_Vertragsdaten_Pruefung" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1th0f7q">
+      <requiredDecision href="#Decision_Geeignetheit_Pruefung" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_10sal7c" hitPolicy="FIRST">
+      <input id="InputClause_1n9zk6p">
+        <inputExpression id="LiteralExpression_05iers5" typeRef="boolean">
+          <text>Decision_Vertragsdaten_Pruefung.korrekt</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0qp0fvo">
+        <inputExpression id="LiteralExpression_0gky07a" typeRef="boolean">
+          <text>Decision_Vertragsdaten_Pruefung.heilbar</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1kuhv7x">
+        <inputExpression id="LiteralExpression_05td245" typeRef="boolean">
+          <text>Decision_Geeignetheit_Pruefung.korrekt</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0p1a32v" name="inOrdnung" typeRef="boolean" />
+      <output id="OutputClause_1jay55f" name="istHeilbar" typeRef="boolean" />
+      <rule id="DecisionRule_1jopna8">
+        <inputEntry id="UnaryTests_1esil17">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0uixb0j">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jh37ue">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1cpsb7g">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_03kdsxb">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ldzamq">
+        <inputEntry id="UnaryTests_160uud7">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1du6d1n">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xxolgx">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0a3aris">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0zirh3v">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1jca36a">
+        <inputEntry id="UnaryTests_07ryvge">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1p0hkde">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0r5pfo0">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1do7104">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_13euw5c">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1noerpm">
+        <inputEntry id="UnaryTests_0l0h4ls">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yifjay">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1q2739p">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_00l85ae">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1p6vr3c">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_103odrx">
+        <inputEntry id="UnaryTests_0emqw6c">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1e1me68">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qy177i">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0pby014">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0n93q9q">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_Gesamtergebnis" name="Gesamtergebnis">
+    <variable id="InformationItem_095nfzg" name="Gesamtergebnis" typeRef="Any" />
+    <informationRequirement id="InformationRequirement_1rkz43w">
+      <requiredDecision href="#Decision_InOrdnung" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0754zbt">
+      <requiredDecision href="#Decision_Hinweise" />
+    </informationRequirement>
+    <literalExpression id="LiteralExpression_1oj5jmp">
+      <text>{
+  inOrdnung: false,
+  istHeilbar: false,
+  hinweise: ["Hinweis1", "Hinweis2"],
+  dokumente: ["Dokument1", "Dokument2"]
+}</text>
+    </literalExpression>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_Vertragsdaten_Pruefung">
+        <dc:Bounds height="80" width="180" x="160" y="480" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1ii19pm" dmnElementRef="Decision_Geeignetheit_Pruefung">
+        <dc:Bounds height="80" width="180" x="390" y="480" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1ffdpi1" dmnElementRef="InformationRequirement_16u0fli">
+        <di:waypoint x="250" y="480" />
+        <di:waypoint x="570" y="370" />
+        <di:waypoint x="570" y="350" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_07no9bk" dmnElementRef="InformationRequirement_0kruvky">
+        <di:waypoint x="480" y="480" />
+        <di:waypoint x="630" y="370" />
+        <di:waypoint x="630" y="350" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0ga4swv" dmnElementRef="Decision_Hinweise">
+        <dc:Bounds height="80" width="180" x="510" y="270" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1to8it5" dmnElementRef="InformationRequirement_0b89czx">
+        <di:waypoint x="250" y="480" />
+        <di:waypoint x="240" y="370" />
+        <di:waypoint x="240" y="350" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1w5pm85" dmnElementRef="InformationRequirement_1th0f7q">
+        <di:waypoint x="480" y="480" />
+        <di:waypoint x="300" y="370" />
+        <di:waypoint x="300" y="350" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1dng1m0" dmnElementRef="Decision_InOrdnung">
+        <dc:Bounds height="80" width="180" x="180" y="270" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_14liezq" dmnElementRef="InformationRequirement_1rkz43w">
+        <di:waypoint x="270" y="270" />
+        <di:waypoint x="400" y="180" />
+        <di:waypoint x="400" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0up72sb" dmnElementRef="InformationRequirement_0754zbt">
+        <di:waypoint x="600" y="270" />
+        <di:waypoint x="460" y="180" />
+        <di:waypoint x="460" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1tm8ms8" dmnElementRef="Decision_Gesamtergebnis">
+        <dc:Bounds height="80" width="180" x="340" y="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
