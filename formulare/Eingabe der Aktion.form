@@ -1,0 +1,51 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "5778981"
+  },
+  "schemaVersion": 19,
+  "id": "Form_0ummnsh",
+  "components": [
+    {
+      "subtype": "datetime",
+      "dateLabel": "Uhrzeit",
+      "type": "datetime",
+      "layout": {
+        "row": "Row_0as2eo5",
+        "columns": null
+      },
+      "id": "Field_0p7lwcs",
+      "key": "uhrzeit",
+      "timeLabel": "Time",
+      "timeSerializingFormat": "utc_offset",
+      "timeInterval": 15,
+      "use24h": true,
+      "readonly": true
+    },
+    {
+      "label": "Welche Aktion soll gemacht werden?",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1w1onib",
+        "columns": null
+      },
+      "id": "Field_19bkhhk",
+      "key": "aktion"
+    },
+    {
+      "label": "PDF-Datei",
+      "type": "filepicker",
+      "layout": {
+        "row": "Row_0b7oyz5",
+        "columns": null
+      },
+      "id": "Field_0m0bkqv",
+      "key": "documents",
+      "accept": "pdf",
+      "multiple": true
+    }
+  ],
+  "type": "default"
+}
