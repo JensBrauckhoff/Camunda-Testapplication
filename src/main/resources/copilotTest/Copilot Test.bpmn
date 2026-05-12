@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:ns1="modeler" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:ns0="xmlns" id="bpmn_copilot_Definition_id" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="5778981" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.6.0" ns0:modeler="http://camunda.org/schema/modeler/1.0" ns1:executionPlatform="Camunda Cloud" ns1:executionPlatformVersion="8.6">
+  <bpmn:process id="Process_MessageUserTasks" name="Process with Messages and User Tasks" processType="None" isClosed="false" isExecutable="true">
+    <bpmn:documentation>Hier wollte ich einen Subprozess zur Vorbereitung des Mandatsstarts erzeugen lassen. Irgendwie hat das aber nicht funktioniert.</bpmn:documentation>
+    <bpmn:startEvent id="StartEvent_1" name="Process started">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:output source="=0" target="totalAmount" />
+          <zeebe:output source="=false" target="processComplete" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:subProcess id="SubProcess_UserTasks" name="User interaction while waiting for messages">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:input source="=totalAmount" target="totalAmount" />
+          <zeebe:input source="=processComplete" target="processComplete" />
+          <zeebe:output source="=totalAmount" target="totalAmount" />
+          <zeebe:output source="=processComplete" target="processComplete" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+      <bpmn:startEvent id="StartEvent_Sub">
+        <bpmn:extensionElements>
+          <zeebe:ioMapping>
+            <zeebe:output source="=false" target="message1Received" />
+            <zeebe:output source="=false" target="message2Received" />
+            <zeebe:output source="=&#34;&#34;" target="message1Info" />
+            <zeebe:output source="=&#34;&#34;" target="message2Info" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+        <bpmn:outgoing>Flow_2</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:parallelGateway id="Gateway_Split" name="Split to parallel tasks">
+        <bpmn:incoming>Flow_2</bpmn:incoming>
+        <bpmn:outgoing>Flow_3</bpmn:outgoing>
+        <bpmn:outgoing>Flow_4</bpmn:outgoing>
+      </bpmn:parallelGateway>
+      <bpmn:userTask id="UserTask_Money" name="Enter money amount" implementation="##unspecified">
+        <bpmn:extensionElements>
+          <zeebe:formDefinition formKey="camunda-forms:bpmn:UserTaskForm_Money" />
+          <zeebe:ioMapping>
+            <zeebe:input source="=totalAmount" target="currentTotal" />
+            <zeebe:input source="=message1Received" target="msg1Status" />
+            <zeebe:input source="=message2Received" target="msg2Status" />
+            <zeebe:input source="=message1Info" target="msg1Data" />
+            <zeebe:input source="=message2Info" target="msg2Data" />
+            <zeebe:output source="=totalAmount + moneyAmount" target="totalAmount" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_3</bpmn:incoming>
+        <bpmn:incoming>Flow_MoneyLoop</bpmn:incoming>
+        <bpmn:outgoing>Flow_5</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:exclusiveGateway id="Gateway_MoneyLoop" name="Continue entering money?" default="Flow_MoneyLoop">
+        <bpmn:incoming>Flow_5</bpmn:incoming>
+        <bpmn:outgoing>Flow_MoneyLoop</bpmn:outgoing>
+        <bpmn:outgoing>Flow_6</bpmn:outgoing>
+      </bpmn:exclusiveGateway>
+      <bpmn:userTask id="UserTask_Status" name="Check status and control process" implementation="##unspecified">
+        <bpmn:extensionElements>
+          <zeebe:formDefinition formKey="camunda-forms:bpmn:UserTaskForm_Status" />
+          <zeebe:ioMapping>
+            <zeebe:input source="=message1Received" target="msg1Status" />
+            <zeebe:input source="=message2Received" target="msg2Status" />
+            <zeebe:input source="=message1Info" target="msg1Data" />
+            <zeebe:input source="=message2Info" target="msg2Data" />
+            <zeebe:input source="=totalAmount" target="cumulatedAmount" />
+            <zeebe:input source="=message1Received and message2Received" target="canComplete" />
+            <zeebe:output source="=if canComplete and completeProcess then true else false" target="processComplete" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_4</bpmn:incoming>
+        <bpmn:incoming>Flow_StatusLoop</bpmn:incoming>
+        <bpmn:outgoing>Flow_7</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:exclusiveGateway id="Gateway_StatusLoop" name="Process complete?" default="Flow_StatusLoop">
+        <bpmn:incoming>Flow_7</bpmn:incoming>
+        <bpmn:outgoing>Flow_StatusLoop</bpmn:outgoing>
+        <bpmn:outgoing>Flow_8</bpmn:outgoing>
+      </bpmn:exclusiveGateway>
+      <bpmn:parallelGateway id="Gateway_Join" name="Join parallel flows">
+        <bpmn:incoming>Flow_6</bpmn:incoming>
+        <bpmn:incoming>Flow_8</bpmn:incoming>
+        <bpmn:outgoing>Flow_End</bpmn:outgoing>
+      </bpmn:parallelGateway>
+      <bpmn:endEvent id="EndEvent_Sub">
+        <bpmn:incoming>Flow_End</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:task id="Task_ProcessMsg1" name="Process message 1 data">
+        <bpmn:extensionElements>
+          <zeebe:ioMapping>
+            <zeebe:input source="=message1Data" target="rawData" />
+            <zeebe:output source="=true" target="message1Received" />
+            <zeebe:output source="=&#34;Processed: &#34; + string(rawData)" target="message1Info" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+        <bpmn:outgoing>Flow_Msg1End</bpmn:outgoing>
+      </bpmn:task>
+      <bpmn:task id="Task_ProcessMsg2" name="Process message 2 data">
+        <bpmn:extensionElements>
+          <zeebe:ioMapping>
+            <zeebe:input source="=message2Data" target="rawData" />
+            <zeebe:output source="=true" target="message2Received" />
+            <zeebe:output source="=&#34;Processed: &#34; + string(rawData)" target="message2Info" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_Msg2</bpmn:incoming>
+        <bpmn:outgoing>Flow_Msg2End</bpmn:outgoing>
+      </bpmn:task>
+      <bpmn:endEvent id="EndEvent_Msg1" name="Message 1 processed">
+        <bpmn:incoming>Flow_Msg1End</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:endEvent id="EndEvent_Msg2" name="Message 2 processed">
+        <bpmn:incoming>Flow_Msg2End</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_2" sourceRef="StartEvent_Sub" targetRef="Gateway_Split" />
+      <bpmn:sequenceFlow id="Flow_3" sourceRef="Gateway_Split" targetRef="UserTask_Money" />
+      <bpmn:sequenceFlow id="Flow_4" sourceRef="Gateway_Split" targetRef="UserTask_Status" />
+      <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_Money" targetRef="Gateway_MoneyLoop" />
+      <bpmn:sequenceFlow id="Flow_MoneyLoop" name="Add more money" sourceRef="Gateway_MoneyLoop" targetRef="UserTask_Money">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=not processComplete</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="Flow_6" name="Stop adding money" sourceRef="Gateway_MoneyLoop" targetRef="Gateway_Join">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=processComplete</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_Status" targetRef="Gateway_StatusLoop" />
+      <bpmn:sequenceFlow id="Flow_StatusLoop" name="Continue monitoring" sourceRef="Gateway_StatusLoop" targetRef="UserTask_Status">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=not processComplete</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="Flow_8" name="Process marked complete" sourceRef="Gateway_StatusLoop" targetRef="Gateway_Join">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=processComplete</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="Flow_End" sourceRef="Gateway_Join" targetRef="EndEvent_Sub" />
+      <bpmn:sequenceFlow id="Flow_Msg2" sourceRef="Event_Message2" targetRef="Task_ProcessMsg2" />
+      <bpmn:sequenceFlow id="Flow_Msg1End" sourceRef="Task_ProcessMsg1" targetRef="EndEvent_Msg1" />
+      <bpmn:sequenceFlow id="Flow_Msg2End" sourceRef="Task_ProcessMsg2" targetRef="EndEvent_Msg2" />
+    </bpmn:subProcess>
+    <bpmn:boundaryEvent id="Event_Message1" name="External message 1" cancelActivity="false" attachedToRef="SubProcess_UserTasks">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:output source="=message1Data" target="message1Data" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:messageEventDefinition messageRef="Message_1" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="Event_Message2" name="External message 2" cancelActivity="false" attachedToRef="SubProcess_UserTasks">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:output source="=message2Data" target="message2Data" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_Msg2</bpmn:outgoing>
+      <bpmn:messageEventDefinition messageRef="Message_2" />
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="EndEvent_1" name="Process completed">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="SubProcess_UserTasks" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="SubProcess_UserTasks" targetRef="EndEvent_1" />
+  </bpmn:process>
+  <bpmn:message id="Message_1" name="ExternalMessage1">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=processInstanceKey" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmn:message id="Message_2" name="ExternalMessage2">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=processInstanceKey" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_Process_MessageUserTasks">
+    <bpmndi:BPMNPlane id="BPMNPlane_Process_MessageUserTasks" bpmnElement="Process_MessageUserTasks">
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="57" y="52" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_UserTasks_di" bpmnElement="SubProcess_UserTasks">
+        <dc:Bounds x="175" y="30" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1">
+        <dc:Bounds x="357" y="52" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Message2_di" bpmnElement="Event_Message2">
+        <dc:Bounds x="223.66666666666669" y="92" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Message1_di" bpmnElement="Event_Message1">
+        <dc:Bounds x="190.33333333333334" y="92" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="93" y="70" />
+        <di:waypoint x="175" y="70" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9">
+        <di:waypoint x="275" y="70" />
+        <di:waypoint x="357" y="70" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpmndi:BPMNDiagram>
+    <bpmndi:BPMNPlane bpmnElement="SubProcess_UserTasks">
+      <bpmndi:BPMNShape id="StartEvent_Sub_di" bpmnElement="StartEvent_Sub">
+        <dc:Bounds x="180" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Split_di" bpmnElement="Gateway_Split">
+        <dc:Bounds x="323" y="175" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_Money_di" bpmnElement="UserTask_Money">
+        <dc:Bounds x="448" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_MoneyLoop_di" bpmnElement="Gateway_MoneyLoop" isMarkerVisible="true">
+        <dc:Bounds x="623" y="175" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_Status_di" bpmnElement="UserTask_Status">
+        <dc:Bounds x="448" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_StatusLoop_di" bpmnElement="Gateway_StatusLoop" isMarkerVisible="true">
+        <dc:Bounds x="623" y="315" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Join_di" bpmnElement="Gateway_Join">
+        <dc:Bounds x="773" y="175" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_Sub_di" bpmnElement="EndEvent_Sub">
+        <dc:Bounds x="930" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ProcessMsg1_di" bpmnElement="Task_ProcessMsg1">
+        <dc:Bounds x="460" y="450" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ProcessMsg2_di" bpmnElement="Task_ProcessMsg2">
+        <dc:Bounds x="448" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_Msg1_di" bpmnElement="EndEvent_Msg1">
+        <dc:Bounds x="630" y="462" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_Msg2_di" bpmnElement="EndEvent_Msg2">
+        <dc:Bounds x="630" y="322" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="216" y="200" />
+        <di:waypoint x="323" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="373" y="200" />
+        <di:waypoint x="448" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="348" y="225" />
+        <di:waypoint x="348" y="340" />
+        <di:waypoint x="448" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
+        <di:waypoint x="548" y="200" />
+        <di:waypoint x="623" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_MoneyLoop_di" bpmnElement="Flow_MoneyLoop">
+        <di:waypoint x="648" y="225" />
+        <di:waypoint x="648" y="270" />
+        <di:waypoint x="498" y="270" />
+        <di:waypoint x="498" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
+        <di:waypoint x="673" y="200" />
+        <di:waypoint x="773" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7">
+        <di:waypoint x="548" y="340" />
+        <di:waypoint x="623" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_StatusLoop_di" bpmnElement="Flow_StatusLoop">
+        <di:waypoint x="648" y="365" />
+        <di:waypoint x="648" y="410" />
+        <di:waypoint x="498" y="410" />
+        <di:waypoint x="498" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8">
+        <di:waypoint x="673" y="340" />
+        <di:waypoint x="798" y="340" />
+        <di:waypoint x="798" y="225" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_End_di" bpmnElement="Flow_End">
+        <di:waypoint x="823" y="200" />
+        <di:waypoint x="930" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Msg2_di" bpmnElement="Flow_Msg2">
+        <di:waypoint x="364.6666666666667" y="258" />
+        <di:waypoint x="364.6666666666667" y="340" />
+        <di:waypoint x="448" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Msg1End_di" bpmnElement="Flow_Msg1End">
+        <di:waypoint x="560" y="490" />
+        <di:waypoint x="589" y="490" />
+        <di:waypoint x="589" y="480" />
+        <di:waypoint x="630" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Msg2End_di" bpmnElement="Flow_Msg2End">
+        <di:waypoint x="548" y="340" />
+        <di:waypoint x="630" y="340" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,167 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "5778981"
+  },
+  "schemaVersion": 19,
+  "id": "Form_03rdtyt",
+  "components": [
+    {
+      "text": "### Kundenanlage vorbereiten",
+      "type": "text",
+      "id": "Form_heading",
+      "layout": {
+        "row": "row_1",
+        "col": 16
+      }
+    },
+    {
+      "text": "##### Current Process Variables",
+      "type": "text",
+      "id": "Display_section",
+      "layout": {
+        "row": "row_2",
+        "col": 16
+      }
+    },
+    {
+      "label": "Stammnummer",
+      "type": "textfield",
+      "id": "Display_var1",
+      "key": "stammNummer",
+      "appearance": {
+        "prefixAdorner": "📋"
+      },
+      "layout": {
+        "row": "row_3",
+        "col": 5
+      },
+      "readonly": true,
+      "conditional": {
+        "hide": "=stammNummer = null"
+      }
+    },
+    {
+      "label": "Process Variable 2",
+      "type": "textfield",
+      "id": "Display_var2",
+      "key": "processVariable2",
+      "appearance": {
+        "prefixAdorner": "📋"
+      },
+      "layout": {
+        "row": "row_3",
+        "col": 5
+      }
+    },
+    {
+      "label": "Process Variable 3",
+      "type": "textfield",
+      "id": "Display_var3",
+      "key": "processVariable3",
+      "appearance": {
+        "prefixAdorner": "📋"
+      },
+      "layout": {
+        "row": "row_3",
+        "col": 6
+      }
+    },
+    {
+      "text": "##### Input Information",
+      "type": "text",
+      "id": "Input_section",
+      "layout": {
+        "row": "row_4",
+        "col": 16
+      }
+    },
+    {
+      "subtype": "date",
+      "type": "datetime",
+      "id": "Date_input",
+      "key": "startDatum",
+      "dateLabel": "Startdatum",
+      "validate": {
+        "required": true
+      },
+      "layout": {
+        "row": "row_5",
+        "col": 8
+      },
+      "properties": { },
+      "disallowPassedDates": true
+    },
+    {
+      "label": "Beginn der Wiederrufsfrist",
+      "type": "textfield",
+      "id": "String_input1",
+      "key": "beginnWiederrufsFrist",
+      "validate": {
+        "required": true,
+        "maxLength": 100
+      },
+      "layout": {
+        "row": "row_5",
+        "col": 8
+      }
+    },
+    {
+      "label": "Anlagebetrag",
+      "type": "textfield",
+      "id": "String_input2",
+      "key": "stringInputField2",
+      "description": "Enter text for field 2",
+      "validate": {
+        "maxLength": 100
+      },
+      "layout": {
+        "row": "row_6",
+        "col": 8
+      }
+    },
+    {
+      "label": "Sonderkondition",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_1ir3zxu",
+        "columns": null
+      },
+      "id": "Field_1p69o64",
+      "key": "sonderKondition"
+    },
+    {
+      "label": "Konditionssatz",
+      "type": "number",
+      "layout": {
+        "row": "Row_1ir3zxu",
+        "columns": null
+      },
+      "id": "Field_1ui0be6",
+      "key": "konditionsSatz",
+      "decimalDigits": 2,
+      "defaultValue": 1.7,
+      "conditional": {
+        "hide": "=sonderKondition = false"
+      },
+      "increment": "0.1"
+    },
+    {
+      "label": "Mandat starten",
+      "type": "checkbox",
+      "id": "Checkbox_field",
+      "key": "checkboxField",
+      "description": "Check this box if applicable",
+      "defaultValue": false,
+      "layout": {
+        "row": "row_7",
+        "col": 16
+      },
+      "readonly": "=stammNummer = null"
+    }
+  ],
+  "generated": true,
+  "type": "default"
+}

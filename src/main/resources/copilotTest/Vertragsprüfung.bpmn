@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:ns1="modeler" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:ns0="xmlns" id="bpmn_copilot_Definition_id" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="5778981" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.9.0" ns0:modeler="http://camunda.org/schema/modeler/1.0" ns1:executionPlatform="Camunda Cloud" ns1:executionPlatformVersion="8.6">
+  <bpmn:process id="Process_1voc4ki" name="Vertragsprüfung" processType="None" isClosed="false" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Vertragsunterlagen erhalten">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="UserTask_Review" name="Vertragsunterlagen prüfen" implementation="##unspecified">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0guchav</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="ServiceTask_Evaluate" name="Prüfungsergebnis auswerten" implementation="##WebService">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="evaluate-contract-review" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_Decision" name="Alle Abschnitte korrekt?" default="Flow_Error">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_Success</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Error</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sendTask id="SendTask_Email" name="E-Mail an Vertragspartner senden" implementation="##WebService">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="send-email" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Error</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:userTask id="UserTask_Response" name="Antwortmail erfassen" implementation="##unspecified">
+      <bpmn:documentation>Copilot auf Deutsch benutzt</bpmn:documentation>
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_Loop</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_Success" name="Vertrag geprüft und korrekt">
+      <bpmn:incoming>Flow_Success</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Gateway_1ocelps" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_Review" targetRef="ServiceTask_Evaluate" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ServiceTask_Evaluate" targetRef="Gateway_Decision" />
+    <bpmn:sequenceFlow id="Flow_Success" name="Ja" sourceRef="Gateway_Decision" targetRef="EndEvent_Success">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=allSectionsValid = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_Error" name="Nein" sourceRef="Gateway_Decision" targetRef="SendTask_Email" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="SendTask_Email" targetRef="UserTask_Response" />
+    <bpmn:sequenceFlow id="Flow_Loop" sourceRef="UserTask_Response" targetRef="Gateway_1ocelps" />
+    <bpmn:exclusiveGateway id="Gateway_1ocelps">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_Loop</bpmn:incoming>
+      <bpmn:outgoing>Flow_0guchav</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0guchav" sourceRef="Gateway_1ocelps" targetRef="UserTask_Review" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_Process_1voc4ki">
+    <bpmndi:BPMNPlane id="BPMNPlane_Process_1voc4ki" bpmnElement="Process_1voc4ki">
+      <bpmndi:BPMNShape id="UserTask_Review_di" bpmnElement="UserTask_Review">
+        <dc:Bounds x="175" y="30" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_Evaluate_di" bpmnElement="ServiceTask_Evaluate">
+        <dc:Bounds x="325" y="30" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Decision_di" bpmnElement="Gateway_Decision" isMarkerVisible="true">
+        <dc:Bounds x="500" y="45" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="487" y="7.5" width="76" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_Success_di" bpmnElement="EndEvent_Success">
+        <dc:Bounds x="657" y="52" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="-18" y="52" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-43" y="88" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_Response_di" bpmnElement="UserTask_Response">
+        <dc:Bounds x="175" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SendTask_Email_di" bpmnElement="SendTask_Email">
+        <dc:Bounds x="325" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1ocelps_di" bpmnElement="Gateway_1ocelps" isMarkerVisible="true">
+        <dc:Bounds x="65" y="45" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="18" y="70" />
+        <di:waypoint x="65" y="70" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="275" y="70" />
+        <di:waypoint x="325" y="70" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="425" y="70" />
+        <di:waypoint x="500" y="70" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Success_di" bpmnElement="Flow_Success">
+        <di:waypoint x="550" y="70" />
+        <di:waypoint x="657" y="70" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Error_di" bpmnElement="Flow_Error">
+        <di:waypoint x="525" y="95" />
+        <di:waypoint x="525" y="230" />
+        <di:waypoint x="425" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="501" y="204" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="325" y="230" />
+        <di:waypoint x="275" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Loop_di" bpmnElement="Flow_Loop">
+        <di:waypoint x="175" y="230" />
+        <di:waypoint x="90" y="230" />
+        <di:waypoint x="90" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0guchav_di" bpmnElement="Flow_0guchav">
+        <di:waypoint x="115" y="70" />
+        <di:waypoint x="175" y="70" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
