@@ -45,7 +45,7 @@
           <text>""</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_0jfd6lm">
-          <text></text>
+          <text>[]</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_1qw0p5h">
@@ -71,7 +71,7 @@
           <text></text>
         </outputEntry>
         <outputEntry id="LiteralExpression_0sip7js">
-          <text></text>
+          <text>[]</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_0c9ernq">
@@ -127,7 +127,7 @@
           <text>""</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_02droqf">
-          <text></text>
+          <text>[]</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_037hnj3">
