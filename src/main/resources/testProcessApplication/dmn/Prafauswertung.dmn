@@ -15,12 +15,13 @@
       <output id="Output_1" label="Korrekt" name="korrekt" typeRef="boolean" />
       <output id="OutputClause_1tw2myr" label="Heilbar" name="heilbar" typeRef="boolean" />
       <output id="OutputClause_0rf2sbb" label="Hinweis" name="hinweis" typeRef="string" />
+      <output id="OutputClause_0n0kwen" label="Anmerkung" name="anmerkung" typeRef="string" />
       <rule id="DecisionRule_00o5wni">
         <inputEntry id="UnaryTests_19srmfy">
           <text>true</text>
         </inputEntry>
         <inputEntry id="UnaryTests_1l8gy0k">
-          <text></text>
+          <text>true</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_03svr8d">
           <text>true</text>
@@ -29,6 +30,9 @@
           <text>true</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_0k69o1a">
+          <text>""</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1kerr6j">
           <text>""</text>
         </outputEntry>
       </rule>
@@ -48,10 +52,13 @@
         <outputEntry id="LiteralExpression_1gvlsww">
           <text>"Bitte ergänzen sie die Unterlagen"</text>
         </outputEntry>
+        <outputEntry id="LiteralExpression_046ufn7">
+          <text>pruefung.vertragsDaten.anmerkung</text>
+        </outputEntry>
       </rule>
       <rule id="DecisionRule_19q2zbw">
         <inputEntry id="UnaryTests_16ir1zx">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="UnaryTests_08akq21">
           <text>false</text>
@@ -64,6 +71,9 @@
         </outputEntry>
         <outputEntry id="LiteralExpression_0ua6u27">
           <text>"Bitte reichen sie die Unterlagen erneut ein"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1t3k41p">
+          <text>pruefung.vertragsDaten.anmerkung</text>
         </outputEntry>
       </rule>
     </decisionTable>
