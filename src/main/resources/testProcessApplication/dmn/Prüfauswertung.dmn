@@ -68,7 +68,7 @@
           <text>"Die Vertragsdaten sind inkonsistent. Bitte reichen sie den Antrag erneut mit korrekten Daten ein"</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_0rer2eu">
-          <text></text>
+          <text>""</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_0sip7js">
           <text>[]</text>
@@ -94,7 +94,7 @@
           <text>"Die Vertragsdaten sind unvollständig."</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_1ktro5a">
-          <text></text>
+          <text>""</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_0u2vsi6">
           <text>["Vertragsunterlagen", "Ausweiskopien"]</text>
