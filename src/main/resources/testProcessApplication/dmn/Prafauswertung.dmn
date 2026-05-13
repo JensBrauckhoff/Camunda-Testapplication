@@ -139,6 +139,98 @@
       </rule>
     </decisionTable>
   </decision>
+  <decision id="Decision_Personen_pruefen" name="Personen prüfen">
+    <decisionTable id="DecisionTable_15g405q" hitPolicy="COLLECT">
+      <input id="InputClause_009skc8" label="Person 1 vollständig">
+        <inputExpression id="LiteralExpression_1ua9p1a" typeRef="boolean">
+          <text>pruefung.personen.vollstaendig[1]</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_04z17qa" label="Person 2 vollständig">
+        <inputExpression id="LiteralExpression_1i8uiau" typeRef="boolean">
+          <text>count(pruefung.personen) &lt; 2 or pruefung.personen.vollstaendig[2]</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_07e0ma2" label="Person 3 vollständig">
+        <inputExpression id="LiteralExpression_16khatz" typeRef="boolean">
+          <text>count(pruefung.personen) &lt; 3 or pruefung.personen.vollstaendig[3]</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1fw2iqr" label="Person korrekt" name="korrekt" typeRef="boolean" />
+      <output id="OutputClause_10j51rl" label="Hinweis" name="hinweis" typeRef="string" biodi:width="285" />
+      <output id="OutputClause_0f5jrp2" label="Anmerkung" name="anmerkung" typeRef="string" />
+      <output id="OutputClause_0eeox1x" label="Heilbar" name="heilbar" typeRef="boolean" />
+      <rule id="DecisionRule_1y0kqzr">
+        <inputEntry id="UnaryTests_0a99n54">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05dzk08">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0sh2uf7">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0zn7ijz">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0c7qfnj">
+          <text>"Bitte Daten von " + pruefung.personen.vorname[1] + " " + pruefung.personen.nachname[1] + " korrigieren"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0fcukat">
+          <text>pruefung.personen.anmerkung[1]</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vyhj4m">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1pybhpo">
+        <inputEntry id="UnaryTests_0mettez">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1av1mfl">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1axvfif">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0cv6dr3">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1trg5s8">
+          <text>"Bitte Daten von " + pruefung.personen.vorname[2] + " " + pruefung.personen.nachname[2] + " korrigieren"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0rwdig1">
+          <text>pruefung.personen.anmerkung[2]</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1odf647">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1s2rx6u">
+        <inputEntry id="UnaryTests_09jcopd">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1p2pitx">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0bh8gm1">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1fwnhea">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0oqj7fs">
+          <text>"Bitte Daten von " + pruefung.personen.vorname[2] + " " + pruefung.personen.nachname[2] + " korrigieren"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1yt731i">
+          <text>pruefung.personen.anmerkung[3]</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_02vkngb">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
   <dmndi:DMNDI>
     <dmndi:DMNDiagram>
       <dmndi:DMNShape id="Decision_0hyg3xh_di" dmnElementRef="Decision_Vertragsunterlagen_pruefen">
@@ -151,6 +243,9 @@
       </dmndi:DMNEdge>
       <dmndi:DMNShape id="DMNShape_13j9woq" dmnElementRef="Decision_Pruefungen_auswerten">
         <dc:Bounds height="80" width="180" x="180" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0d9vaww" dmnElementRef="Decision_Personen_pruefen">
+        <dc:Bounds height="80" width="180" x="440" y="240" />
       </dmndi:DMNShape>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>
