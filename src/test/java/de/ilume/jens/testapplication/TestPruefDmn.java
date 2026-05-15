@@ -26,78 +26,49 @@ class TestPruefDmn {
     public static final String DECISION_HINWEISE_SAMMELN = "Decision_Hinweise_sammeln";
     public static final String VORNAME_1 = "Vorname1";
     public static final String NACHNAME_1 = "Nachname1";
+    public static final String VORNAME_2 = "Vorname2";
+    public static final String NACHNAME_2 = "Nachname2";
+    public static final String VORNAME_3 = "Vorname3";
+    public static final String NACHNAME_3 = "Nachname3";
+
+    public static final String DMN_DATEI = "testProcessApplication/dmn/Prafauswertung.dmn";
 
     @Autowired
     private CamundaClient client;
 
     @Test
-    @TestDeployment(resources = "testProcessApplication/dmn/Prafauswertung.dmn")
+    @TestDeployment(resources = DMN_DATEI)
     void testPruefungAuswerten() {
         final Map<String, Object> variables1 = Map.of("pruefung",
-                Map.of("vertragsDaten", Map.of(
-                                "vollstaendig", true,
-                                "korrekt", true,
-                                "anmerkung", ANMERKUNG_1),
-                        "personen", List.of(
-                                Map.of(
-                                        "vorname", VORNAME_1,
-                                        "nachname", NACHNAME_1,
-                                        "vollstaendig", true,
-                                        "korrekt", true,
-                                        "anmerkung", ANMERKUNG_2)
-                        )));
+                Map.of("vertragsDaten", createVertragsPruefung(true, true, ANMERKUNG_1),
+                        "personen", List.of(createPerson(1, true, ANMERKUNG_2))));
         final EvaluateDecisionResponse decisionResult1 = client.newEvaluateDecisionCommand()
                 .decisionId(DECISION_PRUEFUNG_AUSWERTEN)
                 .variables(variables1).send().join();
         final String decisionOutput1 = decisionResult1.getDecisionOutput();
         System.out.printf("Test 1: %s\n", decisionOutput1);
 
-        final Map<String, Object> variables2 = Map.of("pruefung", Map.of("vertragsDaten", Map.of(
-                        "vollstaendig", true,
-                        "korrekt", false,
-                        "anmerkung", ANMERKUNG_1),
-                "personen", List.of(
-                        Map.of(
-                                "vorname", VORNAME_1,
-                                "nachname", NACHNAME_1,
-                                "vollstaendig", true,
-                                "korrekt", true,
-                                "anmerkung", ANMERKUNG_2)
-                )));
+        final Map<String, Object> variables2 = Map.of("pruefung",
+                Map.of("vertragsDaten", createVertragsPruefung(true, false, ANMERKUNG_1),
+                "personen", List.of(createPerson(1, true, ANMERKUNG_2))));
         final EvaluateDecisionResponse decisionResult2 = client.newEvaluateDecisionCommand()
                 .decisionId(DECISION_PRUEFUNG_AUSWERTEN)
                 .variables(variables2).send().join();
         final String decisionOutput = decisionResult2.getDecisionOutput();
         System.out.printf("Test 2: %s\n", decisionOutput);
 
-        final Map<String, Object> variables3 = Map.of("pruefung", Map.of("vertragsDaten", Map.of(
-                        "vollstaendig", false,
-                        "korrekt", false,
-                        "anmerkung", ANMERKUNG_1),
-                "personen", List.of(
-                        Map.of("vorname", VORNAME_1,
-                                "nachname", NACHNAME_1,
-                                "vollstaendig", true,
-                                "korrekt", true,
-                                "anmerkung", ANMERKUNG_2)
-                )));
+        final Map<String, Object> variables3 = Map.of("pruefung",
+                Map.of("vertragsDaten", createVertragsPruefung(false, false, ANMERKUNG_1),
+                "personen", List.of(createPerson(1, true, ANMERKUNG_2))));
         final EvaluateDecisionResponse decisionResult3 = client.newEvaluateDecisionCommand()
                 .decisionId(DECISION_PRUEFUNG_AUSWERTEN)
                 .variables(variables3).send().join();
         final String decisionOutpu3 = decisionResult3.getDecisionOutput();
         System.out.printf("Test 3: %s\n", decisionOutpu3);
 
-        final Map<String, Object> variables4 = Map.of("pruefung", Map.of("vertragsDaten",
-                Map.of("vollstaendig", false,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_1),
-                "personen", List.of(
-                        Map.of("vorname", VORNAME_1,
-                                "nachname", NACHNAME_1,
-                                "vollstaendig", true,
-                                "korrekt", true,
-                                "anmerkung", ANMERKUNG_2)
-                )));
+        final Map<String, Object> variables4 = Map.of("pruefung",
+                Map.of("vertragsDaten",createVertragsPruefung(false, true, ANMERKUNG_1),
+                "personen", List.of(createPerson(1, true, ANMERKUNG_2))));
         final EvaluateDecisionResponse decisionResult4 = client.newEvaluateDecisionCommand()
                 .decisionId(DECISION_PRUEFUNG_AUSWERTEN)
                 .variables(variables4).send().join();
@@ -105,16 +76,8 @@ class TestPruefDmn {
         System.out.printf("Test 4: %s\n", decisionOutput4);
 
         final Map<String, Object> variables5 = Map.of("pruefung",
-                Map.of("vertragsDaten", Map.of("vollstaendig", true,
-                                "korrekt", true,
-                                "anmerkung", ANMERKUNG_1),
-                        "personen", List.of(
-                                Map.of("vorname", VORNAME_1,
-                                        "nachname", NACHNAME_1,
-                                        "vollstaendig", false,
-                                        "korrekt", true,
-                                        "anmerkung", ANMERKUNG_2)
-                        )));
+                Map.of("vertragsDaten", createVertragsPruefung(true, true, ANMERKUNG_1),
+                        "personen", List.of(createPerson(1, true, ANMERKUNG_2))));
         final EvaluateDecisionResponse decisionResult5 = client.newEvaluateDecisionCommand()
                 .decisionId(DECISION_PRUEFUNG_AUSWERTEN)
                 .variables(variables5).send().join();
@@ -122,26 +85,11 @@ class TestPruefDmn {
         System.out.printf("Test 5: %s\n", decisionOutput5);
 
         final Map<String, Object> variables6 = Map.of("pruefung",
-                Map.of("vertragsDaten", Map.of(
-                                "vollstaendig", true,
-                                "korrekt", true,
-                                "anmerkung", ANMERKUNG_1),
+                Map.of("vertragsDaten", createVertragsPruefung(true, true, ANMERKUNG_1),
                         "personen", List.of(
-                                Map.of("vorname", VORNAME_1,
-                                        "nachname", NACHNAME_1,
-                                        "vollstaendig", true,
-                                        "korrekt", true,
-                                        "anmerkung", ANMERKUNG_2),
-                                Map.of("vorname", "Vorname2",
-                                        "nachname", "Nachname2",
-                                        "vollstaendig", false,
-                                        "korrekt", true,
-                                        "anmerkung", ANMERKUNG_3),
-                                Map.of("vorname", "Vorname3",
-                                        "nachname", "Nachname3",
-                                        "vollstaendig", true,
-                                        "korrekt", true,
-                                        "anmerkung", ANMERKUNG_4)
+                                createPerson(1, true, ANMERKUNG_2),
+                                createPerson(2, false, ANMERKUNG_3),
+                                createPerson(3, true, ANMERKUNG_4)
                         )));
         final EvaluateDecisionResponse decisionResult6 = client.newEvaluateDecisionCommand()
                 .decisionId(DECISION_PRUEFUNG_AUSWERTEN)
@@ -151,14 +99,10 @@ class TestPruefDmn {
     }
 
     @Test
-    @TestDeployment(resources = "testProcessApplication/dmn/Prafauswertung.dmn")
+    @TestDeployment(resources = DMN_DATEI)
     void testPersonenPruefung() {
         final Map<String, Object> variables1 = Map.of("pruefung", Map.of("personen", List.of(
-                Map.of("vorname", "Vorname1",
-                        "nachname", "Nachname1",
-                        "vollstaendig", true,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_1)
+                createPerson(1, true, ANMERKUNG_1)
         )));
         final EvaluateDecisionResponse decisionResult1 = client.newEvaluateDecisionCommand()
                 .decisionId(DECISION_PERSONEN_PRUEFEN)
@@ -167,12 +111,7 @@ class TestPruefDmn {
         System.out.printf("Test 1: %s\n", decisionOutput1);
 
         final Map<String, Object> variables2 = Map.of("pruefung", Map.of("personen", List.of(
-                Map.of(
-                        "vorname", "Vorname1",
-                        "nachname", "Nachname1",
-                        "vollstaendig", false,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_1)
+                createPerson(1, false, ANMERKUNG_1)
         )));
         final EvaluateDecisionResponse decisionResult2 = client.newEvaluateDecisionCommand()
                 .decisionId(DECISION_PERSONEN_PRUEFEN)
@@ -181,16 +120,8 @@ class TestPruefDmn {
         System.out.printf("Test 2: %s\n", decisionOutput2);
 
         final Map<String, Object> variables3 = Map.of("pruefung", Map.of("personen", List.of(
-                Map.of("vorname", "Vorname1",
-                        "nachname", "Nachname1",
-                        "vollstaendig", true,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_1),
-                Map.of("vorname", "Vorname2",
-                        "nachname", "Nachname2",
-                        "vollstaendig", true,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_2)
+                createPerson(1, true, ANMERKUNG_1),
+                createPerson(2, true, ANMERKUNG_2)
         )));
         final EvaluateDecisionResponse decisionResult3 = client.newEvaluateDecisionCommand()
                 .decisionId("Decision_Personen_pruefen")
@@ -199,16 +130,8 @@ class TestPruefDmn {
         System.out.printf("Test 3: %s\n", decisionOutput3);
 
         final Map<String, Object> variables4 = Map.of("pruefung", Map.of("personen", List.of(
-                Map.of("vorname", "Vorname1",
-                        "nachname", "Nachname1",
-                        "vollstaendig", false,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_1),
-                Map.of("vorname", "Vorname2",
-                        "nachname", "Nachname2",
-                        "vollstaendig", true,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_2)
+                createPerson(1, false, ANMERKUNG_1),
+                createPerson(2, true, ANMERKUNG_2)
         )));
         final EvaluateDecisionResponse decisionResult4 = client.newEvaluateDecisionCommand()
                 .decisionId("Decision_Personen_pruefen")
@@ -217,16 +140,8 @@ class TestPruefDmn {
         System.out.printf("Test 4: %s\n", decisionOutput4);
 
         final Map<String, Object> variables5 = Map.of("pruefung", Map.of("personen", List.of(
-                Map.of("vorname", "Vorname1",
-                        "nachname", "Nachname1",
-                        "vollstaendig", true,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_1),
-                Map.of("vorname", "Vorname2",
-                        "nachname", "Nachname2",
-                        "vollstaendig", false,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_2)
+                createPerson(1, true, ANMERKUNG_1),
+                createPerson(2, false, ANMERKUNG_2)
         )));
         final EvaluateDecisionResponse decisionResult5 = client.newEvaluateDecisionCommand()
                 .decisionId("Decision_Personen_pruefen")
@@ -235,16 +150,8 @@ class TestPruefDmn {
         System.out.printf("Test 5: %s\n", decisionOutput5);
 
         final Map<String, Object> variables6 = Map.of("pruefung", Map.of("personen", List.of(
-                Map.of("vorname", "Vorname1",
-                        "nachname", "Nachname1",
-                        "vollstaendig", false,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_1),
-                Map.of("vorname", "Vorname2",
-                        "nachname", "Nachname2",
-                        "vollstaendig", false,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_2)
+                createPerson(1, false, ANMERKUNG_1),
+                createPerson(2, false, ANMERKUNG_2)
         )));
         final EvaluateDecisionResponse decisionResult6 = client.newEvaluateDecisionCommand()
                 .decisionId("Decision_Personen_pruefen")
@@ -253,22 +160,9 @@ class TestPruefDmn {
         System.out.printf("Test 6: %s\n", decisionOutput6);
 
         final Map<String, Object> variables21 = Map.of("pruefung", Map.of("personen", List.of(
-                Map.of("vorname", "Vorname1",
-                        "nachname", "Nachname1",
-                        "vollstaendig", true,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_1),
-                Map.of("vorname", "Vorname2",
-                        "nachname", "Nachname2",
-                        "vollstaendig", true,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_2),
-                Map.of("vorname", "Vorname3",
-                        "nachname", "Nachname3",
-                        "vollstaendig", true,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_3)
-
+                createPerson(1, true, ANMERKUNG_1),
+                createPerson(2, true, ANMERKUNG_2),
+                createPerson(3, true, ANMERKUNG_3)
         )));
         final EvaluateDecisionResponse decisionResult21 = client.newEvaluateDecisionCommand()
                 .decisionId("Decision_Personen_pruefen")
@@ -277,22 +171,9 @@ class TestPruefDmn {
         System.out.printf("Test 21: %s\n", decisionOutput21);
 
         final Map<String, Object> variables22 = Map.of("pruefung", Map.of("personen", List.of(
-                Map.of("vorname", "Vorname1",
-                        "nachname", "Nachname1",
-                        "vollstaendig", false,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_1),
-                Map.of("vorname", "Vorname2",
-                        "nachname", "Nachname2",
-                        "vollstaendig", false,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_2),
-                Map.of("vorname", "Vorname3",
-                        "nachname", "Nachname3",
-                        "vollstaendig", false,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_3)
-
+                createPerson(1, false, ANMERKUNG_1),
+                createPerson(2, false, ANMERKUNG_2),
+                createPerson(3, false, ANMERKUNG_3)
         )));
         final EvaluateDecisionResponse decisionResult22 = client.newEvaluateDecisionCommand()
                 .decisionId("Decision_Personen_pruefen")
@@ -302,22 +183,11 @@ class TestPruefDmn {
     }
 
     @Test
-    @TestDeployment(resources = "testProcessApplication/dmn/Prafauswertung.dmn")
+    @TestDeployment(resources = DMN_DATEI)
     void testHinweiseSammeln() {
         final Map<String, Object> variables1 = Map.of("pruefung", Map.of(
-                "vertragsDaten", Map.of(
-                        "vollstaendig", true,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_1),
-                "personen", List.of(
-                        Map.of(
-                                "vorname", VORNAME_1,
-                                "nachname", NACHNAME_1,
-                                "vollstaendig", true,
-                                "korrekt", true,
-                                "anmerkung", ANMERKUNG_1)
-                )
-        ));
+                "vertragsDaten", createVertragsPruefung(true, true, ANMERKUNG_1),
+                "personen", List.of(createPerson(1, true, ANMERKUNG_2))));
         final EvaluateDecisionResponse decisionResult1 = client.newEvaluateDecisionCommand()
                 .decisionId(DECISION_HINWEISE_SAMMELN)
                 .variables(variables1).send().join();
@@ -325,19 +195,8 @@ class TestPruefDmn {
         System.out.printf("Test 1: %s\n", decisionOutput1);
 
         final Map<String, Object> variables2 = Map.of("pruefung", Map.of(
-                "vertragsDaten", Map.of(
-                        "vollstaendig", false,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_1),
-                "personen", List.of(
-                        Map.of(
-                                "vorname", VORNAME_1,
-                                "nachname", NACHNAME_1,
-                                "vollstaendig", true,
-                                "korrekt", true,
-                                "anmerkung", ANMERKUNG_1)
-                )
-        ));
+                "vertragsDaten", createVertragsPruefung(false, true, ANMERKUNG_1),
+                "personen", List.of(createPerson(1, true, ANMERKUNG_2))));
         final EvaluateDecisionResponse decisionResult2 = client.newEvaluateDecisionCommand()
                 .decisionId(DECISION_HINWEISE_SAMMELN)
                 .variables(variables2).send().join();
@@ -345,19 +204,8 @@ class TestPruefDmn {
         System.out.printf("Test 2: %s\n", decisionOutput2);
 
         final Map<String, Object> variables3 = Map.of("pruefung", Map.of(
-                "vertragsDaten", Map.of(
-                        "vollstaendig", true,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_1),
-                "personen", List.of(
-                        Map.of(
-                                "vorname", VORNAME_1,
-                                "nachname", NACHNAME_1,
-                                "vollstaendig", false,
-                                "korrekt", true,
-                                "anmerkung", ANMERKUNG_1)
-                )
-        ));
+                "vertragsDaten", createVertragsPruefung(true, true, ANMERKUNG_1),
+                "personen", List.of(createPerson(1, false, ANMERKUNG_2))));
         final EvaluateDecisionResponse decisionResult3 = client.newEvaluateDecisionCommand()
                 .decisionId(DECISION_HINWEISE_SAMMELN)
                 .variables(variables3).send().join();
@@ -365,24 +213,30 @@ class TestPruefDmn {
         System.out.printf("Test 3: %s\n", decisionOutput3);
 
         final Map<String, Object> variables4 = Map.of("pruefung", Map.of(
-                "vertragsDaten", Map.of(
-                        "vollstaendig", false,
-                        "korrekt", true,
-                        "anmerkung", ANMERKUNG_1),
-                "personen", List.of(
-                        Map.of(
-                                "vorname", VORNAME_1,
-                                "nachname", NACHNAME_1,
-                                "vollstaendig", false,
-                                "korrekt", true,
-                                "anmerkung", ANMERKUNG_1)
-                )
-        ));
+                "vertragsDaten",createVertragsPruefung(false, true, ANMERKUNG_1),
+                "personen", List.of(createPerson(1, false, ANMERKUNG_1))));
         final EvaluateDecisionResponse decisionResult4 = client.newEvaluateDecisionCommand()
                 .decisionId(DECISION_HINWEISE_SAMMELN)
                 .variables(variables4).send().join();
         final String decisionOutput4 = decisionResult4.getDecisionOutput();
         System.out.printf("Test 4: %s\n", decisionOutput4);
+    }
+
+    private static Map<String, Object> createVertragsPruefung(boolean vollstaendig, boolean korrekt, final String anmerkung) {
+        return Map.of(
+                "vollstaendig", vollstaendig,
+                "korrekt", korrekt,
+                "anmerkung", anmerkung);
+    }
+    private static Map<String, Object> createPerson(int nummer, boolean vollstaendig, final String anmerkung) {
+        final String vorname = nummer == 1 ? VORNAME_1 : nummer == 2 ? VORNAME_2 : VORNAME_3;
+        final String nachname = nummer == 1 ? NACHNAME_1 : nummer == 2 ? NACHNAME_2 : NACHNAME_3;
+        return Map.of(
+                "vorname", vorname,
+                "nachname", nachname,
+                "vollstaendig", vollstaendig,
+                "korrekt", true,
+                "anmerkung", anmerkung);
     }
 
     @SpringBootApplication
