@@ -303,11 +303,11 @@
       </input>
       <input id="InputClause_1klqo5t" label="Personenprüfung">
         <inputExpression id="LiteralExpression_1dq7plu" typeRef="boolean">
-          <text>Decision_Personen_pruefen.korrekt</text>
+          <text>all(Decision_Personen_pruefen.korrekt)</text>
         </inputExpression>
       </input>
       <output id="OutputClause_01td2vg" label="Hinweise" name="hinweise" typeRef="Any" biodi:width="313" />
-      <output id="OutputClause_05a5spw" label="Anmerkungen" name="anmerkungen" typeRef="Any" biodi:width="289" />
+      <output id="OutputClause_05a5spw" label="Anmerkungen" name="anmerkung" typeRef="Any" biodi:width="289" />
       <rule id="DecisionRule_0veejii">
         <inputEntry id="UnaryTests_1um12um">
           <text>true</text>
@@ -358,7 +358,7 @@
           <text>false</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0513rvd">
-          <text>Decision_Vertragsunterlagen_pruefen.hinweis</text>
+          <text>Decision_Personen_pruefen.hinweis</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_1ut2q4i">
           <text>Decision_Personen_pruefen.anmerkung</text>
@@ -366,40 +366,90 @@
       </rule>
     </decisionTable>
   </decision>
+  <decision id="Decision_Vertragspruefung_auswerten" name="Vertragsprüfung auswerten">
+    <informationRequirement id="InformationRequirement_06l725m">
+      <requiredDecision href="#Decision_Pruefungen_auswerten" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_038ujg9">
+      <requiredDecision href="#Decision_Hinweise_sammeln" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_019k7md">
+      <input id="InputClause_1sjlpoy" label="Dummy">
+        <inputExpression id="LiteralExpression_0used5l" typeRef="boolean">
+          <text>true</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1gp2ifw" label="Vertragsdaten korrekt" name="korrekt" typeRef="boolean" />
+      <output id="OutputClause_0xpveew" label="Vertragsdaten heilbar" name="heilbar" typeRef="boolean" />
+      <output id="OutputClause_0rkfg71" label="Hinweise" name="hinweise" typeRef="Any" />
+      <rule id="DecisionRule_1nptch5">
+        <inputEntry id="UnaryTests_004woe5">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1jpd9g9">
+          <text>Decision_Pruefungen_auswerten.korrekt</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1clwp4t">
+          <text>Decision_Pruefungen_auswerten.heilbar</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0dt8qdv">
+          <text>{
+  mergedList: for i in 1..count(flatten(Decision_Hinweise_sammeln.hinweise)) return {
+    hinweis: flatten(Decision_Hinweise_sammeln.hinweise)[i],
+    anmerkung: flatten(Decision_Hinweise_sammeln.anmerkung)[i]
+  }
+}.mergedList</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
   <dmndi:DMNDI>
     <dmndi:DMNDiagram>
       <dmndi:DMNShape id="Decision_0hyg3xh_di" dmnElementRef="Decision_Vertragsunterlagen_pruefen">
-        <dc:Bounds height="80" width="180" x="180" y="240" />
+        <dc:Bounds height="80" width="180" x="180" y="400" />
       </dmndi:DMNShape>
       <dmndi:DMNEdge id="DMNEdge_0x7ibo5" dmnElementRef="InformationRequirement_0c3a6gm">
-        <di:waypoint x="270" y="240" />
-        <di:waypoint x="240" y="180" />
-        <di:waypoint x="240" y="160" />
+        <di:waypoint x="270" y="400" />
+        <di:waypoint x="240" y="340" />
+        <di:waypoint x="240" y="320" />
       </dmndi:DMNEdge>
       <dmndi:DMNShape id="DMNShape_13j9woq" dmnElementRef="Decision_Pruefungen_auswerten">
-        <dc:Bounds height="80" width="180" x="180" y="80" />
+        <dc:Bounds height="80" width="180" x="180" y="240" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="DMNShape_0d9vaww" dmnElementRef="Decision_Personen_pruefen">
-        <dc:Bounds height="80" width="180" x="440" y="240" />
+        <dc:Bounds height="80" width="180" x="440" y="400" />
       </dmndi:DMNShape>
       <dmndi:DMNEdge id="DMNEdge_0dlckj2" dmnElementRef="InformationRequirement_1pnpod3">
-        <di:waypoint x="530" y="240" />
-        <di:waypoint x="560" y="180" />
-        <di:waypoint x="560" y="160" />
+        <di:waypoint x="530" y="400" />
+        <di:waypoint x="560" y="340" />
+        <di:waypoint x="560" y="320" />
       </dmndi:DMNEdge>
       <dmndi:DMNEdge id="DMNEdge_1nqi89j" dmnElementRef="InformationRequirement_1tpvq85">
-        <di:waypoint x="270" y="240" />
-        <di:waypoint x="500" y="180" />
-        <di:waypoint x="500" y="160" />
+        <di:waypoint x="270" y="400" />
+        <di:waypoint x="500" y="340" />
+        <di:waypoint x="500" y="320" />
       </dmndi:DMNEdge>
       <dmndi:DMNShape id="DMNShape_1x5y1zl" dmnElementRef="Decision_Hinweise_sammeln">
-        <dc:Bounds height="80" width="180" x="440" y="80" />
+        <dc:Bounds height="80" width="180" x="440" y="240" />
       </dmndi:DMNShape>
       <dmndi:DMNEdge id="DMNEdge_1fz41yh" dmnElementRef="InformationRequirement_12vktfh">
-        <di:waypoint x="530" y="240" />
-        <di:waypoint x="300" y="180" />
-        <di:waypoint x="300" y="160" />
+        <di:waypoint x="530" y="400" />
+        <di:waypoint x="300" y="340" />
+        <di:waypoint x="300" y="320" />
       </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1rxtjeo" dmnElementRef="InformationRequirement_06l725m">
+        <di:waypoint x="270" y="240" />
+        <di:waypoint x="370" y="180" />
+        <di:waypoint x="370" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_09i2qyz" dmnElementRef="InformationRequirement_038ujg9">
+        <di:waypoint x="530" y="240" />
+        <di:waypoint x="430" y="180" />
+        <di:waypoint x="430" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1qyw3e2" dmnElementRef="Decision_Vertragspruefung_auswerten">
+        <dc:Bounds height="80" width="180" x="310" y="80" />
+      </dmndi:DMNShape>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>
 </definitions>
