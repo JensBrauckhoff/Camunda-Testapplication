@@ -1,0 +1,25 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "5778981"
+  },
+  "schemaVersion": 19,
+  "id": "startdatum-eingeben-11wbh4s",
+  "components": [
+    {
+      "subtype": "date",
+      "dateLabel": "Startdatum",
+      "type": "datetime",
+      "layout": {
+        "row": "Row_0v92179",
+        "columns": null
+      },
+      "id": "Field_0k43k1i",
+      "key": "_startDatum",
+      "disallowPassedDates": true
+    }
+  ],
+  "type": "default"
+}

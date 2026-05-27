@@ -1,0 +1,28 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "5778981"
+  },
+  "schemaVersion": 19,
+  "id": "kunde-anlegen-1yrzvj6",
+  "components": [
+    {
+      "label": "Stammnummer",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_06cbold",
+        "columns": null
+      },
+      "id": "Field_1hqlje7",
+      "key": "_stammNummer",
+      "validate": {
+        "required": true,
+        "minLength": "6",
+        "maxLength": "7"
+      }
+    }
+  ],
+  "type": "default"
+}

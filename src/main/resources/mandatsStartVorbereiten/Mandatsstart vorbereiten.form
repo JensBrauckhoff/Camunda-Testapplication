@@ -1,0 +1,82 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "5778981"
+  },
+  "schemaVersion": 19,
+  "id": "mandatsstart-vorbereiten-08k8vh0",
+  "components": [
+    {
+      "label": "Startkapital",
+      "type": "number",
+      "layout": {
+        "row": "Row_0w8qkwd",
+        "columns": null
+      },
+      "id": "Field_0izm1pc",
+      "key": "_startKapital",
+      "readonly": true
+    },
+    {
+      "label": "Stammnummer",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1o8ye1e",
+        "columns": null
+      },
+      "id": "Field_1ydv4q5",
+      "key": "_stammNummer",
+      "readonly": true
+    },
+    {
+      "subtype": "date",
+      "dateLabel": "Startdatum",
+      "type": "datetime",
+      "layout": {
+        "row": "Row_1hi199v",
+        "columns": null
+      },
+      "id": "Field_0609pnr",
+      "key": "_startDatum",
+      "readonly": false
+    },
+    {
+      "label": "Geldeingang",
+      "type": "number",
+      "layout": {
+        "row": "Row_1n5tc48",
+        "columns": null
+      },
+      "id": "Field_1pwhsbm",
+      "key": "_geldEingangSumme"
+    },
+    {
+      "label": "Geldeingang bestätigt",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_0gnhifq",
+        "columns": null
+      },
+      "id": "Field_1in0yue",
+      "key": "_geldEingangBestaetigt"
+    },
+    {
+      "label": "Mandat starten",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_1dp2hqh",
+        "columns": null
+      },
+      "id": "Field_0brx5rj",
+      "key": "_mandatStarten",
+      "readonly": false,
+      "disabled": false,
+      "conditional": {
+        "hide": "=not(_geldEingangBestaetigt) or _stammNummer = null\n or string length(_stammNummer) = 0\nor _startDatum = null"
+      }
+    }
+  ],
+  "type": "default"
+}
